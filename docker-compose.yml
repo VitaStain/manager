@@ -1,0 +1,40 @@
+version: '3.10'
+
+services:
+  web:
+    build: drf/
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./drf/:/usr/src/app/
+    ports:
+      - 8000:8000
+    env_file:
+      - ./.env.dev
+  db:
+    image: postgres:12.0-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=hello_django
+      - POSTGRES_PASSWORD=hello_django
+      - POSTGRES_DB=hello_django_dev
+
+  redis:
+    image: redis:alpine
+  celery:
+    build: ./drf
+    command: celery -A drf worker -l info
+    env_file:
+      - ./.env.dev
+    depends_on:
+      - redis
+  celery-beat:
+    build: ./drf
+    command: celery -A drf beat -l info
+    env_file:
+      - ./.env.dev
+    depends_on:
+      - redis
+
+volumes:
+  postgres_data:
