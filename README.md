@@ -8,7 +8,7 @@
 
 Смотреть информацию профиля /api/profile/ 
 
-Просматривать/изменять/добавлять/удалять категории /api/profile/category/  /api/profile/category/<<id>>/
+Просматривать/изменять/добавлять/удалять категории /api/profile/category/  /api/profile/category/<id>/
   
 Осуществлять/просматривать транзакции /api/profile/transaction/   (action=debit - списание, 
                                                                    action=replenish - пополнение)
